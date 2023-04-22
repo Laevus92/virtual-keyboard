@@ -19,6 +19,10 @@
   margin: 50px auto;
   border: 4px solid rgb(239, 239, 239);
   border-radius: 10px;
+  padding: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 28px;
+  font-weight: 400;
 }
 
 .current-language {
@@ -85,6 +89,14 @@
   box-shadow: 0 0 0 2px #c9c9c9, 0 0 #7c7c7c;
   transform: translate3d(0, 0em, -1em);
 }
+.keyboard__button_active {
+  background-color: #e2e2e2;
+  transform: translate3d(0, 0.45em, -1em);
+}
+.keyboard__button_active::before {
+  box-shadow: 0 0 0 2px #c9c9c9, 0 0 #7c7c7c;
+  transform: translate3d(0, 0em, -1em);
+}
 .keyboard__button_common-button {
   width: 63px;
 }
@@ -129,49 +141,7 @@
 }
 .keyboard__button_arrow-left {
   width: 63px;
-  height: 63px;
-  cursor: pointer;
-  background-color: rgb(239, 239, 239);
-  margin: 10px;
-  border-radius: 10px;
-  border: 2px solid #c9c9c9;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: 0.15s;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
   margin: 10px 10px 10px 4px;
-}
-.keyboard__button_arrow-left::before {
-  content: "";
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  background: #a3a3a3;
-  border-radius: inherit;
-  box-shadow: 0 0 0 2px #c9c9c9, 0 0.425em 0 0 #7c7c7c;
-  transform: translate3d(0, 0.45em, -1em);
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-.keyboard__button_arrow-left:hover {
-  background-color: #e2e2e2;
-  transform: translate3d(0, 0.25em, -1em);
-}
-.keyboard__button_arrow-left:hover:before {
-  box-shadow: 0 0 0 2px #c9c9c9, 0 0.325em 0 0 #7c7c7c;
-  transform: translate3d(0, 0.35em, -1em);
-}
-.keyboard__button_arrow-left:active {
-  background-color: #e2e2e2;
-  transform: translate3d(0, 0.45em, -1em);
-}
-.keyboard__button_arrow-left:active::before {
-  box-shadow: 0 0 0 2px #c9c9c9, 0 0 #7c7c7c;
-  transform: translate3d(0, 0em, -1em);
 }
 .keyboard__button_arrow-left .keyboard__primary-simbol {
   font-size: 16px;
@@ -179,48 +149,6 @@
 }
 .keyboard__button_arrow-up, .keyboard__button_arrow-down {
   width: 63px;
-  height: 63px;
-  cursor: pointer;
-  background-color: rgb(239, 239, 239);
-  margin: 10px;
-  border-radius: 10px;
-  border: 2px solid #c9c9c9;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: 0.15s;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-.keyboard__button_arrow-up::before, .keyboard__button_arrow-down::before {
-  content: "";
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  background: #a3a3a3;
-  border-radius: inherit;
-  box-shadow: 0 0 0 2px #c9c9c9, 0 0.425em 0 0 #7c7c7c;
-  transform: translate3d(0, 0.45em, -1em);
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-.keyboard__button_arrow-up:hover, .keyboard__button_arrow-down:hover {
-  background-color: #e2e2e2;
-  transform: translate3d(0, 0.25em, -1em);
-}
-.keyboard__button_arrow-up:hover:before, .keyboard__button_arrow-down:hover:before {
-  box-shadow: 0 0 0 2px #c9c9c9, 0 0.325em 0 0 #7c7c7c;
-  transform: translate3d(0, 0.35em, -1em);
-}
-.keyboard__button_arrow-up:active, .keyboard__button_arrow-down:active {
-  background-color: #e2e2e2;
-  transform: translate3d(0, 0.45em, -1em);
-}
-.keyboard__button_arrow-up:active::before, .keyboard__button_arrow-down:active::before {
-  box-shadow: 0 0 0 2px #c9c9c9, 0 0 #7c7c7c;
-  transform: translate3d(0, 0em, -1em);
 }
 .keyboard__button_arrow-up .keyboard__primary-symbol, .keyboard__button_arrow-down .keyboard__primary-symbol {
   font-size: 16px;
@@ -228,49 +156,7 @@
 }
 .keyboard__button_arrow-right {
   width: 63px;
-  height: 63px;
-  cursor: pointer;
-  background-color: rgb(239, 239, 239);
-  margin: 10px;
-  border-radius: 10px;
-  border: 2px solid #c9c9c9;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: 0.15s;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
   margin: 10px 10px 10px 4px;
-}
-.keyboard__button_arrow-right::before {
-  content: "";
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  background: #a3a3a3;
-  border-radius: inherit;
-  box-shadow: 0 0 0 2px #c9c9c9, 0 0.425em 0 0 #7c7c7c;
-  transform: translate3d(0, 0.45em, -1em);
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-.keyboard__button_arrow-right:hover {
-  background-color: #e2e2e2;
-  transform: translate3d(0, 0.25em, -1em);
-}
-.keyboard__button_arrow-right:hover:before {
-  box-shadow: 0 0 0 2px #c9c9c9, 0 0.325em 0 0 #7c7c7c;
-  transform: translate3d(0, 0.35em, -1em);
-}
-.keyboard__button_arrow-right:active {
-  background-color: #e2e2e2;
-  transform: translate3d(0, 0.45em, -1em);
-}
-.keyboard__button_arrow-right:active::before {
-  box-shadow: 0 0 0 2px #c9c9c9, 0 0 #7c7c7c;
-  transform: translate3d(0, 0em, -1em);
 }
 .keyboard__button_arrow-right .keyboard__primary-symbol {
   font-size: 16px;
