@@ -1,6 +1,8 @@
 import ENGLISH_LAYOUT from "./assets/layouts/english-layout.js";
 import RUSSIAN_LAYOUT from "./assets/layouts/russian-layout.js";
 
+let defoultLayout = ENGLISH_LAYOUT; 
+
 class Key {
     constructor () {
         this.key = document.createElement('div');
@@ -33,7 +35,7 @@ class Key {
     } 
 }
 
-function createDom(layout) {
+function createInputBox () {
     const documentBody = document.querySelector('body');
     
     // create wrapper 
@@ -49,17 +51,29 @@ function createDom(layout) {
     textBox.rows = '5';
     wrapper = document.querySelector('.wrapper');
     wrapper.append(textBox);
+    textBox = document.querySelector('.text-box');
+    textBox.focus()
   
     //create current layout indicator
   
     let currentLayout = document.createElement('p');
     currentLayout.className = 'current-language';
-    currentLayout.innerHTML = 'Eng'
+    if (defoultLayout === ENGLISH_LAYOUT) {
+        currentLayout.innerHTML = 'Eng'
+    } else {
+        currentLayout.innerHTML = 'Rus'
+    }
     wrapper.append(currentLayout)
-  
+}
+
+createInputBox ()
+
+function createKeyboard(layout) {
+
     //create keyboard
     let keyboard = document.createElement('div');
     keyboard.className = 'keyboard';
+    let wrapper = document.querySelector('.wrapper');
     wrapper.append(keyboard);
     keyboard = document.querySelector('.keyboard');
   
@@ -83,6 +97,74 @@ function createDom(layout) {
             keyUpAndDownWrapper.append(keyboardKey.key)
         }
     }
+
+    let notification = document.createElement('p')
+    notification.innerHTML = 'Keyboard created for WindowsOS. To change layout press shift + ctrl';
+    notification.classList.add('keyboard__secondary-symbol')
+    wrapper.append(notification)
+
 }
   
-createDom(ENGLISH_LAYOUT)
+createKeyboard(defoultLayout);
+
+const keyboardKeys = document.querySelectorAll('.keyboard__button')
+
+document.addEventListener('keydown', (button) => {
+    let buttonCode = button.code;
+    let currentLayoutIndicator = document.querySelector('.current-language');
+    let notification = document.querySelector('body > div > p.keyboard__secondary-symbol');
+
+    keyboardKeys.forEach(key => {
+        if (key.getAttribute('code') === buttonCode) {     
+            key.classList.add('keyboard__button_active')
+        }
+    })
+    let primarySymbols = document.querySelectorAll('.keyboard__button_common-button > .keyboard__primary-symbol');
+    let secondarySymbols = document.querySelectorAll('.keyboard__button_common-button > .keyboard__secondary-symbol');
+    let primarySymbolinLayout = []
+    let secondarySymbolinLayout = []
+
+    if (button.ctrlKey && button.shiftKey && defoultLayout === ENGLISH_LAYOUT) {
+        defoultLayout = RUSSIAN_LAYOUT
+        currentLayoutIndicator.innerHTML = 'Rus';
+        notification.innerHTML = 'Клавиатура создана для WindowsOS. Чтобы сменить раскладку, нажмите shift + ctrl'
+        for (let key in RUSSIAN_LAYOUT) {
+            if (RUSSIAN_LAYOUT[key][0] === 'keyboard__button_common-button') {
+                primarySymbolinLayout.push(RUSSIAN_LAYOUT[key][1]);
+                secondarySymbolinLayout.push(RUSSIAN_LAYOUT[key][2]);
+            }
+        }
+        for (let i = 0; i < primarySymbolinLayout.length; i++) {
+            primarySymbols[i].innerHTML = primarySymbolinLayout[i].toUpperCase()
+            secondarySymbols[i].innerHTML = secondarySymbolinLayout[i].toUpperCase()
+        }
+        
+    } else if (button.ctrlKey && button.shiftKey && defoultLayout === RUSSIAN_LAYOUT) {
+        defoultLayout = ENGLISH_LAYOUT;
+        currentLayoutIndicator.innerHTML = 'Eng';
+        notification.innerHTML = 'Keyboard created for WindowsOS. To change layout press shift + ctrl';
+        primarySymbolinLayout = []
+        secondarySymbolinLayout = []
+        for (let key in ENGLISH_LAYOUT) {
+            if (ENGLISH_LAYOUT[key][0] === 'keyboard__button_common-button') {
+                primarySymbolinLayout.push(ENGLISH_LAYOUT[key][1]);
+                secondarySymbolinLayout.push(ENGLISH_LAYOUT[key][2]);
+            }
+        }
+        for (let i = 0; i < primarySymbolinLayout.length; i++) {
+            primarySymbols[i].innerHTML = primarySymbolinLayout[i].toUpperCase()
+            secondarySymbols[i].innerHTML = secondarySymbolinLayout[i].toUpperCase()
+        }
+    }
+})
+
+document.addEventListener('keyup', (button) => {
+    let buttonCode = button.code;
+    
+    keyboardKeys.forEach(key => {
+        if (key.getAttribute('code') === buttonCode) {
+            key.classList.remove('keyboard__button_active')
+        }
+    })
+
+})

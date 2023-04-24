@@ -27,7 +27,7 @@ const ENGLISH_LAYOUT = {
   26: ['keyboard__button_common-button', '[', '{', 'BracketLeft'],
   27: ['keyboard__button_common-button', ']', '}', 'BracketRight'],
   28: ['keyboard__button_slash', '\\', '|', 'Backslash'],
-  29: ['keyboard__button_caps-lock', 'CapsLock', 'CapsLock'],
+  29: ['keyboard__button_caps-lock', 'Caps Lock', 'CapsLock'],
   30: ['keyboard__button_common-button', 'a', 'ф', 'KeyA'],
   31: ['keyboard__button_common-button', 's', 'ы', 'KeyS'],
   32: ['keyboard__button_common-button', 'd', 'в', 'KeyD'],
