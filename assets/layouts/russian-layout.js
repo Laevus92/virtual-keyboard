@@ -50,7 +50,7 @@ const RUSSIAN_LAYOUT = {
   49: ['keyboard__button_common-button', 'ь', 'm', 'KeyM'],
   50: ['keyboard__button_common-button', 'б', '<', 'Comma'],
   51: ['keyboard__button_common-button', 'ю', '>', 'Period'],
-  52: ['keyboard__button_common-button', '.', '?', 'Slash'],
+  52: ['keyboard__button_common-button', '.', ',', 'Slash'],
   53: ['keyboard__button_right-shift', 'Shift', 'ShiftRight'],
   54: ['keyboard__button_left-ctrl', 'Ctrl', 'ControlLeft'],
   55: ['keyboard__button_left-win', 'Win', 'MetaLeft'],

@@ -107,24 +107,14 @@ function createKeyboard(layout) {
   
 createKeyboard(defoultLayout);
 
-const keyboardKeys = document.querySelectorAll('.keyboard__button')
-
-document.addEventListener('keydown', (button) => {
-    let buttonCode = button.code;
+function switchLayout() {
     let currentLayoutIndicator = document.querySelector('.current-language');
     let notification = document.querySelector('body > div > p.keyboard__secondary-symbol');
-
-    keyboardKeys.forEach(key => {
-        if (key.getAttribute('code') === buttonCode) {     
-            key.classList.add('keyboard__button_active')
-        }
-    })
     let primarySymbols = document.querySelectorAll('.keyboard__button_common-button > .keyboard__primary-symbol');
     let secondarySymbols = document.querySelectorAll('.keyboard__button_common-button > .keyboard__secondary-symbol');
     let primarySymbolinLayout = []
     let secondarySymbolinLayout = []
-
-    if (button.ctrlKey && button.shiftKey && defoultLayout === ENGLISH_LAYOUT) {
+    if (defoultLayout === ENGLISH_LAYOUT) {
         defoultLayout = RUSSIAN_LAYOUT
         currentLayoutIndicator.innerHTML = 'Rus';
         notification.innerHTML = 'Клавиатура создана для WindowsOS. Чтобы сменить раскладку, нажмите shift + ctrl'
@@ -138,8 +128,7 @@ document.addEventListener('keydown', (button) => {
             primarySymbols[i].innerHTML = primarySymbolinLayout[i].toUpperCase()
             secondarySymbols[i].innerHTML = secondarySymbolinLayout[i].toUpperCase()
         }
-        
-    } else if (button.ctrlKey && button.shiftKey && defoultLayout === RUSSIAN_LAYOUT) {
+    } else {
         defoultLayout = ENGLISH_LAYOUT;
         currentLayoutIndicator.innerHTML = 'Eng';
         notification.innerHTML = 'Keyboard created for WindowsOS. To change layout press shift + ctrl';
@@ -156,8 +145,30 @@ document.addEventListener('keydown', (button) => {
             secondarySymbols[i].innerHTML = secondarySymbolinLayout[i].toUpperCase()
         }
     }
+}
+
+const keyboardKeys = document.querySelectorAll('.keyboard__button')
+const textBox = document.querySelector('.text-box')
+
+//events for keydown on physical keyboard
+document.addEventListener('keydown', (button) => {
+    let buttonCode = button.code;
+
+    keyboardKeys.forEach(key => {
+        if (key.getAttribute('code') === buttonCode) {     
+            key.classList.add('keyboard__button_active')
+        }
+    })
+
+    if (button.ctrlKey && button.shiftKey) {
+        switchLayout()
+    } else if (button.code === 'Tab') {
+        button.preventDefault()
+        textBox.value = textBox.value + '\t'
+    }
 })
 
+//events for keyup on physical keyboard
 document.addEventListener('keyup', (button) => {
     let buttonCode = button.code;
     
@@ -167,4 +178,21 @@ document.addEventListener('keyup', (button) => {
         }
     })
 
+})
+
+//events for click on virtual keyboard
+keyboardKeys.forEach(key => {
+    key.addEventListener('click', (click) => {
+        textBox.focus()
+        if (key.classList.contains('keyboard__button_common-button')) {         //click on common-button
+            if(keyboardKeys[28].classList.contains('keyboard__button_active') ||
+             keyboardKeys[52].classList.contains('keyboard__button_active') ||
+             keyboardKeys[41].classList.contains('keyboard__button_active')) {
+                keyboardKeys[52].classList.remove('keyboard__button_active')
+                keyboardKeys[41].classList.remove('keyboard__button_active')
+                textBox.value = textBox.value + key.lastChild.innerHTML
+             } else {
+                textBox.value = textBox.value + key.lastChild.innerHTML.toLowerCase()
+        }   }
+    })
 })
