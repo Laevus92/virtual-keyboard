@@ -1,5 +1,6 @@
 import ENGLISH_LAYOUT from "./assets/layouts/english-layout.js";
 import RUSSIAN_LAYOUT from "./assets/layouts/russian-layout.js";
+import ALPHABETS from "./assets/layouts/alphabet.js";
 
 let defoultLayout = ENGLISH_LAYOUT; 
 
@@ -185,13 +186,20 @@ keyboardKeys.forEach(key => {
     key.addEventListener('click', (click) => {
         textBox.focus()
         if (key.classList.contains('keyboard__button_common-button')) {         //click on common-button
-            if(keyboardKeys[28].classList.contains('keyboard__button_active') ||
-             keyboardKeys[52].classList.contains('keyboard__button_active') ||
-             keyboardKeys[41].classList.contains('keyboard__button_active')) {
-                keyboardKeys[52].classList.remove('keyboard__button_active')
-                keyboardKeys[41].classList.remove('keyboard__button_active')
+            if (keyboardKeys[28].classList.contains('keyboard__button_active')) {
                 textBox.value = textBox.value + key.lastChild.innerHTML
-             } else {
+            } else if (keyboardKeys[41].classList.contains('keyboard__button_active') ||
+              keyboardKeys[52].classList.contains('keyboard__button_active')) {
+               if (ALPHABETS.includes(key.lastChild.innerHTML.toLowerCase())) {
+                textBox.value = textBox.value + key.lastChild.innerHTML
+                keyboardKeys[41].classList.remove('keyboard__button_active')
+                keyboardKeys[52].classList.remove('keyboard__button_active')
+               } else {
+                textBox.value = textBox.value + key.firstChild.innerHTML
+                keyboardKeys[41].classList.remove('keyboard__button_active')
+                keyboardKeys[52].classList.remove('keyboard__button_active')
+               }
+            } else {
                 textBox.value = textBox.value + key.lastChild.innerHTML.toLowerCase()
             }
         } else if (key.classList.contains('keyboard__button_backspace')) {      // click on backspace
