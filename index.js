@@ -277,6 +277,32 @@ keyboardKeys.forEach(key => {
                 keyboardKeys[55].classList.remove('keyboard__button_active')
                 key.classList.add('keyboard__button_active');
             }
+        } else if (key.classList.contains('keyboard__button_arrow-left')) {      //click on left-arrow
+            if (textBox.selectionStart > 0){
+                textBox.selectionStart -= 1
+                textBox.selectionEnd -= 1                
+            } else {
+                textBox.selectionStart = 0
+                textBox.selectionEnd =  0 
+            }
+        } else if (key.classList.contains('keyboard__button_arrow-right')) {      //click on right-arrow
+            if (textBox.selectionStart < textBox.value.length){
+                textBox.selectionEnd += 1
+                textBox.selectionStart += 1                
+            } else {
+                textBox.selectionStart = textBox.value.length
+                textBox.selectionEnd = textBox.value.length
+            }
+        } else if (key.classList.contains('keyboard__button_arrow-up')) {      //click on up-arrow
+            if (textBox.selectionStart - 91 > 0){
+                textBox.selectionStart -= 91
+                textBox.selectionEnd -= 91                
+            }
+        } else if (key.classList.contains('keyboard__button_arrow-down')) {      //click on down-arrow
+            if (textBox.selectionStart + 91 < textBox.value.length){
+                textBox.selectionEnd += 91
+                textBox.selectionStart += 91                
+            }
         }
     })
 })
