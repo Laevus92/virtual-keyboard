@@ -193,6 +193,66 @@ keyboardKeys.forEach(key => {
                 textBox.value = textBox.value + key.lastChild.innerHTML
              } else {
                 textBox.value = textBox.value + key.lastChild.innerHTML.toLowerCase()
-        }   }
+            }
+        } else if (key.classList.contains('keyboard__button_backspace')) {      // click on backspace
+            textBox.value = textBox.value.slice(0, textBox.value.length - 1)
+            
+        } else if (key.classList.contains('keyboard__button_tab')) {            //click on tab
+            textBox.value = textBox.value + '\t'
+        } else if (key.classList.contains('keyboard__button_enter')) {          //click on enter
+            textBox.value = textBox.value + '\n'
+        } else if (key.classList.contains('keyboard__button_space')) {          //click on space
+            textBox.value = textBox.value + ' '
+        } else if (key.classList.contains('keyboard__button_caps-lock')) {      //click on caps lock
+            key.classList.toggle('keyboard__button_active')
+        } else if (key.classList.contains('keyboard__button_left-shift')) {    //click on left-shift
+            if (keyboardKeys[58].classList.contains('keyboard__button_active') ||
+              keyboardKeys[53].classList.contains('keyboard__button_active')) {
+                switchLayout()
+                keyboardKeys[58].classList.remove('keyboard__button_active')
+                keyboardKeys[53].classList.remove('keyboard__button_active')
+            } else if (key.classList.contains('keyboard__button_active')) {
+                key.classList.remove('keyboard__button_active')
+            } else {
+                keyboardKeys[52].classList.remove('keyboard__button_active')
+                key.classList.add('keyboard__button_active')
+            }
+        } else if (key.classList.contains('keyboard__button_right-shift')) {    //click on right-shift
+            if (keyboardKeys[58].classList.contains('keyboard__button_active') ||
+              keyboardKeys[53].classList.contains('keyboard__button_active')) {
+                switchLayout()
+                keyboardKeys[58].classList.remove('keyboard__button_active')
+                keyboardKeys[53].classList.remove('keyboard__button_active')
+            } else if (key.classList.contains('keyboard__button_active')) {
+                key.classList.remove('keyboard__button_active')
+            } else {
+                keyboardKeys[41].classList.remove('keyboard__button_active')
+                key.classList.add('keyboard__button_active')
+            }
+        } else if (key.classList.contains('keyboard__button_left-ctrl')) {     //click on left-ctrl
+            if (keyboardKeys[52].classList.contains('keyboard__button_active') ||
+              keyboardKeys[41].classList.contains('keyboard__button_active')) {
+                switchLayout()
+                keyboardKeys[52].classList.remove('keyboard__button_active')
+                keyboardKeys[41].classList.remove('keyboard__button_active')
+            } else if (key.classList.contains('keyboard__button_active')) {
+                key.classList.remove('keyboard__button_active')
+            } else {
+                keyboardKeys[58].classList.remove('keyboard__button_active')
+                key.classList.add('keyboard__button_active')
+            }
+        } else if (key.classList.contains('keyboard__button_right-ctrl')) {     //click on right-ctrl
+            if (keyboardKeys[52].classList.contains('keyboard__button_active') ||
+              keyboardKeys[41].classList.contains('keyboard__button_active')) {
+                switchLayout()
+                keyboardKeys[52].classList.remove('keyboard__button_active')
+                keyboardKeys[41].classList.remove('keyboard__button_active')
+            } else if (key.classList.contains('keyboard__button_active')) {
+                key.classList.remove('keyboard__button_active')
+            } else {
+                keyboardKeys[53].classList.remove('keyboard__button_active')
+                key.classList.add('keyboard__button_active')
+            }
+        }
     })
 })
