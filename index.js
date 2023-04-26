@@ -213,7 +213,7 @@ keyboardKeys.forEach(key => {
             textBox.value = textBox.value + ' '
         } else if (key.classList.contains('keyboard__button_caps-lock')) {      //click on caps lock
             key.classList.toggle('keyboard__button_active')
-        } else if (key.classList.contains('keyboard__button_left-shift')) {    //click on left-shift
+        } else if (key.classList.contains('keyboard__button_left-shift')) {     //click on left-shift
             if (keyboardKeys[58].classList.contains('keyboard__button_active') ||
               keyboardKeys[53].classList.contains('keyboard__button_active')) {
                 switchLayout()
@@ -237,7 +237,7 @@ keyboardKeys.forEach(key => {
                 keyboardKeys[41].classList.remove('keyboard__button_active')
                 key.classList.add('keyboard__button_active')
             }
-        } else if (key.classList.contains('keyboard__button_left-ctrl')) {     //click on left-ctrl
+        } else if (key.classList.contains('keyboard__button_left-ctrl')) {      //click on left-ctrl
             if (keyboardKeys[52].classList.contains('keyboard__button_active') ||
               keyboardKeys[41].classList.contains('keyboard__button_active')) {
                 switchLayout()
@@ -260,6 +260,22 @@ keyboardKeys.forEach(key => {
             } else {
                 keyboardKeys[53].classList.remove('keyboard__button_active')
                 key.classList.add('keyboard__button_active')
+            }
+        } else if (key.classList.contains('keyboard__button_slash')) {          //click on slash
+            textBox.value = textBox.value + key.lastChild.innerHTML
+        } else if (key.classList.contains('keyboard__button_left-alt')) {       //click on left-alt
+            if (key.classList.contains('keyboard__button_active')) {
+                key.classList.remove('keyboard__button_active')
+            } else {
+                keyboardKeys[57].classList.remove('keyboard__button_active')
+                key.classList.add('keyboard__button_active');
+            }
+        } else if (key.classList.contains('keyboard__button_right-alt')) {      //click on right-alt
+            if (key.classList.contains('keyboard__button_active')) {
+                key.classList.remove('keyboard__button_active')
+            } else {
+                keyboardKeys[55].classList.remove('keyboard__button_active')
+                key.classList.add('keyboard__button_active');
             }
         }
     })
