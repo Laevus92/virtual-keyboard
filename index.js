@@ -149,7 +149,9 @@ document.addEventListener('keydown', (button) => {
     }
 
     keyboardKeys.forEach(key => {
-        if (key.getAttribute('code') === buttonCode) {     
+        if (buttonCode === 'CapsLock' && key.getAttribute('code') === buttonCode) {
+            key.classList.toggle('keyboard__button_active')
+        }else if (key.getAttribute('code') === buttonCode && key.getAttribute('code') !== 'CapsLock') {     
             key.classList.add('keyboard__button_active')
         }
     })
@@ -171,11 +173,17 @@ document.addEventListener('keyup', (button) => {
     let buttonCode = button.code;
     
     keyboardKeys.forEach(key => {
-        if (key.getAttribute('code') === buttonCode) {
+        if (key.getAttribute('code') === buttonCode && key.getAttribute('code') !== 'CapsLock') {
             key.classList.remove('keyboard__button_active')
-        }
+        } 
     })
 
+})
+let counter = 0;
+let startSelection = 0
+textBox.addEventListener('click', () => {
+    counter = 0
+    startSelection = textBox.selectionStart
 })
 
 //events for click on virtual keyboard
@@ -299,35 +307,41 @@ keyboardKeys.forEach(key => {
                 key.classList.add('keyboard__button_active');
             }
         } else if (key.classList.contains('keyboard__button_arrow-left')) {      //click on left-arrow
-            console.log(textBox.selectionStart, textBox.selectionEnd)
             if (keyboardKeys[52].classList.contains('keyboard__button_active') ||
               keyboardKeys[41].classList.contains('keyboard__button_active')) {
-                // textBox.selectionStart -= 1
+                counter--
+                if (textBox.selectionStart === textBox.selectionEnd) {
+                    textBox.selectionStart--
+                } else {
+                    if (counter < 0) {
+                        textBox.selectionStart--
+                    } else if (counter > 0) {
+                        textBox.selectionEnd--
+                    }else {
+                        textBox.selectionStart = textBox.selectionEnd = 0
+                    }
+                }
             } else {
                 if (textBox.selectionStart > 0){
-                    textBox.selectionStart -= 1
-                    textBox.selectionEnd -= 1                
+                    textBox.selectionStart = textBox.selectionEnd -= 1             
                 } else {
-                    textBox.selectionStart = 0
-                    textBox.selectionEnd =  0 
+                    textBox.selectionStart = textBox.selectionEnd =  startSelection
                 }
             }
         } else if (key.classList.contains('keyboard__button_arrow-right')) {      //click on right-arrow
-            console.log(textBox.selectionStart, textBox.selectionEnd)
             if (keyboardKeys[52].classList.contains('keyboard__button_active') ||
               keyboardKeys[41].classList.contains('keyboard__button_active')) {
-            //     if (textBox.selectionStart < textBox.selectionEnd) {
-            //         textBox.selectionStart += 1 
-            //     } else {
-            //         textBox.selectionEnd += 1
-            //     }
-            } else {
-                if (textBox.selectionStart < textBox.value.length){
-                    textBox.selectionEnd += 1
-                    textBox.selectionStart += 1             
+                counter++
+                if (textBox.selectionStart === textBox.selectionEnd) {
+                    textBox.selectionEnd++
                 } else {
-                    textBox.selectionStart = textBox.value.length
-                    textBox.selectionEnd = textBox.value.length
+                    if (counter < 0) {
+                        textBox.selectionStart++
+                    } else if (counter > 0) {
+                        textBox.selectionEnd++
+                    } else {
+                        textBox.selectionStart = textBox.selectionEnd = startSelection
+                    }
                 }
             }
         } else if (key.classList.contains('keyboard__button_arrow-up')) {      //click on up-arrow
