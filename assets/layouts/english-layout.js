@@ -1,5 +1,5 @@
 const ENGLISH_LAYOUT = {
-  1: ['keyboard__button_common-button', '\`', '~', 'Backquote'],
+  1: ['keyboard__button_common-button', '`', '~', 'Backquote'],
   2: ['keyboard__button_common-button', '1', '!', 'Digit1'],
   3: ['keyboard__button_common-button', '2', '@', 'Digit2'],
   4: ['keyboard__button_common-button', '3', '#', 'Digit3'],
@@ -59,9 +59,9 @@ const ENGLISH_LAYOUT = {
   58: ['keyboard__button_right-alt', 'Alt', 'AltRight'],
   59: ['keyboard__button_right-ctrl', 'Ctrl', 'ControlRight'],
   60: ['keyboard__button_arrow-left', '&larr;', 'ArrowLeft'],
-  61: ['keyboard__button_arrow-up','&uarr;', 'ArrowUp'],
+  61: ['keyboard__button_arrow-up', '&uarr;', 'ArrowUp'],
   62: ['keyboard__button_arrow-down', '&darr;', 'ArrowDown'],
   63: ['keyboard__button_arrow-right', '&rarr;', 'ArrowRight'],
-}
+};
 
 export default ENGLISH_LAYOUT;
