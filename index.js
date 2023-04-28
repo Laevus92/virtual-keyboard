@@ -231,6 +231,22 @@ function pushSymbol(inputString, symbol) {
   }
 }
 
+function moveCoursorVertically(button) {
+  const cursorPosition = textBox.selectionStart;
+  const { value } = textBox;
+  const lineIndex = value.substr(0, cursorPosition).split('\n').length - 1;
+  const lines = value.split('\n');
+  if (button.classList.contains('keyboard__button_arrow-up')) {
+    if (lineIndex > 0) {
+      const newPosition = textBox.selectionStart - lines[lineIndex - 1].length - 1;
+      textBox.setSelectionRange(newPosition, newPosition);
+    }
+  } else if (lineIndex < value.split('\n').length - 1) {
+    const newPosition = textBox.selectionStart + lines[lineIndex].length + 1;
+    textBox.setSelectionRange(newPosition, newPosition);
+  }
+}
+
 // events for click on virtual keyboard
 keyboardKeys.forEach((key) => {
   key.addEventListener('click', () => {
@@ -395,15 +411,9 @@ keyboardKeys.forEach((key) => {
         textBox.selectionEnd = textBox.value.length;
       }
     } else if (key.classList.contains('keyboard__button_arrow-up')) { // click on up-arrow
-      if (textBox.selectionStart - 91 > 0) {
-        textBox.selectionStart -= 91;
-        textBox.selectionEnd -= 91;
-      }
+      moveCoursorVertically(key);
     } else if (key.classList.contains('keyboard__button_arrow-down')) { // click on down-arrow
-      if (textBox.selectionStart + 91 < textBox.value.length) {
-        textBox.selectionEnd += 91;
-        textBox.selectionStart += 91;
-      }
+      moveCoursorVertically(key);
     }
   });
 });
