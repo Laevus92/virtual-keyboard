@@ -83,6 +83,9 @@ function createKeyboard(layout) {
   const wrapper = document.querySelector('.wrapper');
   wrapper.append(keyboard);
   keyboard = document.querySelector('.keyboard');
+  keyboard.addEventListener('mousedown', (event) => {
+    event.preventDefault();
+  });
 
   Object.keys(layout).forEach((key) => {
     if (layout[key][0] !== 'keyboard__button_arrow-up'
@@ -148,6 +151,11 @@ function switchLayout() {
 
 const keyboardKeys = document.querySelectorAll('.keyboard__button');
 const textBox = document.querySelector('.text-box');
+textBox.addEventListener('blur', () => {
+  keyboardKeys.forEach((key) => {
+    key.classList.remove('keyboard__button_active');
+  });
+});
 
 function isShiftPressed() {
   return keyboardKeys[52].classList.contains('keyboard__button_active')
@@ -184,15 +192,12 @@ document.addEventListener('keydown', (button) => {
 
   // push shift + ctrl to switch layout
   if ((isCtrlPressed() && isShiftPressed()) || (button.shiftKey && button.ctrlKey)) {
-    if (defaultLayout === ENGLISH_LAYOUT) {
-      switchLayout();
-    } else {
-      switchLayout();
-    }
+    switchLayout();
     // push Tab button
   } else if (button.code === 'Tab') {
     button.preventDefault();
     textBox.value = `${textBox.value}\t`;
+    // push Alt button
   } else if (button.altKey) {
     button.preventDefault();
   }
@@ -249,8 +254,8 @@ function moveCoursorVertically(button) {
 
 // events for click on virtual keyboard
 keyboardKeys.forEach((key) => {
-  key.addEventListener('click', () => {
-    textBox.focus();
+  key.addEventListener('mousedown', (event) => {
+    event.preventDefault();
     if (key.classList.contains('keyboard__button_common-button')) { // click on common-button
       if (isShiftPressed() && keyboardKeys[28].classList.contains('keyboard__button_active')) {
         if (ALPHABETS.includes(key.lastChild.innerHTML.toLowerCase())) {
