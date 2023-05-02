@@ -27,7 +27,7 @@ const RUSSIAN_LAYOUT = {
   26: ['keyboard__button_common-button', 'х', '{', 'BracketLeft'],
   27: ['keyboard__button_common-button', 'ъ', '}', 'BracketRight'],
   28: ['keyboard__button_slash', '\\', '/', 'Backslash'],
-  29: ['keyboard__button_caps-lock', 'Caps Lock', 'Caps Lock'],
+  29: ['keyboard__button_caps-lock', 'Caps Lock', 'CapsLock'],
   30: ['keyboard__button_common-button', 'ф', 'a', 'KeyA'],
   31: ['keyboard__button_common-button', 'ы', 's', 'KeyS'],
   32: ['keyboard__button_common-button', 'в', 'd', 'KeyD'],
