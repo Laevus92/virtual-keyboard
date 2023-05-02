@@ -55,7 +55,7 @@ const RUSSIAN_LAYOUT = {
   54: ['keyboard__button_left-ctrl', 'Ctrl', 'ControlLeft'],
   55: ['keyboard__button_left-win', 'Win', 'MetaLeft'],
   56: ['keyboard__button_left-alt', 'Alt', 'AltLeft'],
-  57: ['keyboard__button_space', ' ', 'Space'],
+  57: ['keyboard__button_space', ' ', ' ', 'Space'],
   58: ['keyboard__button_right-alt', 'Alt', 'AltRight'],
   59: ['keyboard__button_right-ctrl', 'Ctrl', 'ControlRight'],
   60: ['keyboard__button_arrow-left', '&larr;', 'ArrowLeft'],

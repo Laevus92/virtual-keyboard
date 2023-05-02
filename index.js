@@ -167,58 +167,6 @@ function isCtrlPressed() {
     || keyboardKeys[53].classList.contains('keyboard__button_active');
 }
 
-// events for keydown on physical keyboard
-document.addEventListener('keydown', (button) => {
-  const buttonCode = button.code;
-  textBox.focus();
-  if (ALPHABETS.includes(button.key) && (button.key.toUpperCase() !== button.code.slice(3))) {
-    defaultLayout = ENGLISH_LAYOUT;
-    switchLayout();
-  } else if (ALPHABETS.includes(button.key)
-  && (button.key.toUpperCase() === button.code.slice(3))) {
-    defaultLayout = RUSSIAN_LAYOUT;
-    switchLayout();
-  }
-
-  keyboardKeys.forEach((key) => {
-    // push CapsLock button toggle active class
-    if (buttonCode === 'CapsLock' && key.getAttribute('code') === buttonCode) {
-      key.classList.toggle('keyboard__button_active');
-      // push any other button add active classe
-    } else if (key.getAttribute('code') === buttonCode && key.getAttribute('code') !== 'CapsLock') {
-      key.classList.add('keyboard__button_active');
-    }
-  });
-
-  // push shift + ctrl to switch layout
-  if ((isCtrlPressed() && isShiftPressed()) || (button.shiftKey && button.ctrlKey)) {
-    switchLayout();
-    // push Tab button
-  } else if (button.code === 'Tab') {
-    button.preventDefault();
-    textBox.value = `${textBox.value}\t`;
-    // push Alt button
-  } else if (button.altKey) {
-    button.preventDefault();
-  }
-});
-document.addEventListener('keyup', (button) => {
-  const buttonCode = button.code;
-  // remove active class wheh button realised except CapsLock
-  keyboardKeys.forEach((key) => {
-    if (key.getAttribute('code') === buttonCode && key.getAttribute('code') !== 'CapsLock') {
-      key.classList.remove('keyboard__button_active');
-    }
-  });
-});
-let counter = 0;
-let startSelection = 0;
-textBox.addEventListener('click', () => {
-  counter = 0;
-  // determine current cursor position
-  startSelection = textBox.selectionStart;
-});
-
 function pushSymbol(inputString, symbol) {
   const string = inputString;
   // push symbol in the end of the string
@@ -235,6 +183,147 @@ function pushSymbol(inputString, symbol) {
     string.selectionEnd = cursorPosition;
   }
 }
+
+let counter = 0;
+let startSelection = 0;
+
+// events for keydown on physical keyboard
+document.addEventListener('keydown', (button) => {
+  const buttonCode = button.code;
+  button.preventDefault();
+
+  keyboardKeys.forEach((key) => {
+    // push CapsLock button toggle active class
+    if (buttonCode === 'CapsLock' && key.getAttribute('code') === buttonCode) {
+      key.classList.toggle('keyboard__button_active');
+      // push any other button add active classe
+    } else if (key.getAttribute('code') === buttonCode) {
+      key.classList.add('keyboard__button_active');
+      if (!keyboardKeys[28].classList.contains('keyboard__button_active') && button.shiftKey && key.getAttribute('code') === buttonCode && (key.classList.contains('keyboard__button_common-button')) && ALPHABETS.includes(key.lastChild.innerHTML.toLowerCase())) {
+        pushSymbol(textBox, key.lastChild.innerHTML);
+      } else if (!keyboardKeys[28].classList.contains('keyboard__button_active') && !button.shiftKey && key.getAttribute('code') === buttonCode && (key.classList.contains('keyboard__button_common-button')) && ALPHABETS.includes(key.lastChild.innerHTML.toLowerCase())) {
+        pushSymbol(textBox, key.lastChild.innerHTML.toLowerCase());
+      } else if (keyboardKeys[28].classList.contains('keyboard__button_active') && button.shiftKey && key.getAttribute('code') === buttonCode && (key.classList.contains('keyboard__button_common-button')) && ALPHABETS.includes(key.lastChild.innerHTML.toLowerCase())) {
+        pushSymbol(textBox, key.lastChild.innerHTML.toLowerCase());
+      } else if (keyboardKeys[28].classList.contains('keyboard__button_active') && !button.shiftKey && key.getAttribute('code') === buttonCode && (key.classList.contains('keyboard__button_common-button')) && ALPHABETS.includes(key.lastChild.innerHTML.toLowerCase())) {
+        pushSymbol(textBox, key.lastChild.innerHTML);
+      } else if (button.shiftKey && key.getAttribute('code') === buttonCode && key.classList.contains('keyboard__button_common-button')) {
+        pushSymbol(textBox, key.firstChild.textContent);
+      } else if (!button.shiftKey && key.getAttribute('code') === buttonCode && key.classList.contains('keyboard__button_common-button')) {
+        pushSymbol(textBox, key.lastChild.textContent);
+      } else if (!button.shiftKey && key.getAttribute('code') === buttonCode && key.classList.contains('keyboard__button_slash')) {
+        pushSymbol(textBox, key.lastChild.textContent);
+      }
+    }
+  });
+
+  // push shift + ctrl to switch layout
+  if ((isCtrlPressed() && isShiftPressed()) || (button.shiftKey && button.ctrlKey)) {
+    switchLayout();
+    // push Tab button
+  } else if (button.code === 'Tab') {
+    pushSymbol(textBox, '\t');
+    // push Alt button
+  } else if (button.code === 'Enter') {
+    pushSymbol(textBox, '\n');
+  } else if (button.code === 'Backspace') {
+    if (textBox.selectionStart === textBox.value.length) {
+      textBox.value = textBox.value.slice(0, textBox.value.length - 1);
+    } else if (textBox.selectionStart !== 0) {
+      let beforeCursor = textBox.value.slice(0, textBox.selectionStart);
+      const afterCursor = textBox.value.slice(textBox.selectionStart, textBox.value.length);
+      let cursorPosition = textBox.selectionStart;
+      beforeCursor = beforeCursor.slice(0, beforeCursor.length - 1);
+      textBox.value = `${beforeCursor}${afterCursor}`;
+      cursorPosition -= 1;
+      textBox.selectionStart = cursorPosition;
+      textBox.selectionEnd = cursorPosition;
+    }
+  } else if (button.code === 'ArrowLeft') {
+    if (button.shiftKey) {
+      if (textBox.selectionStart === textBox.selectionEnd) {
+        textBox.selectionStart -= 1;
+        counter -= 1;
+      } else if (counter < 0) {
+        if (textBox.selectionStart > 0) {
+          textBox.selectionStart -= 1;
+          counter -= 1;
+        }
+      } else if (counter > 0) {
+        textBox.selectionEnd -= 1;
+        counter -= 1;
+      } else {
+        textBox.selectionStart = startSelection;
+        textBox.selectionEnd = startSelection;
+      }
+    } else if (textBox.selectionStart > 0) {
+      textBox.selectionEnd = textBox.selectionStart;
+      textBox.selectionStart -= 1;
+      textBox.selectionEnd -= 1;
+    } else {
+      textBox.selectionStart = 0;
+      textBox.selectionEnd = 0;
+    }
+  } else if (button.code === 'ArrowRight') {
+    if (button.shiftKey) {
+      if (textBox.selectionStart === textBox.selectionEnd) {
+        textBox.selectionEnd += 1;
+        counter += 1;
+      } else if (counter < 0) {
+        textBox.selectionStart += 1;
+        counter += 1;
+      } else if (counter > 0) {
+        if (textBox.selectionEnd < textBox.value.length) {
+          textBox.selectionEnd += 1;
+          counter += 1;
+        }
+      } else {
+        textBox.selectionStart = startSelection;
+        textBox.selectionEnd = startSelection;
+      }
+    } else if (textBox.selectionStart < textBox.value.length) {
+      textBox.selectionEnd = textBox.selectionStart;
+      textBox.selectionEnd += 1;
+      textBox.selectionStart += 1;
+    } else {
+      textBox.selectionStart = textBox.value.length;
+      textBox.selectionEnd = textBox.value.length;
+    }
+  } else if (button.code === 'ArrowUp') {
+    const cursorPosition = textBox.selectionStart;
+    const { value } = textBox;
+    const lineIndex = value.substr(0, cursorPosition).split('\n').length - 1;
+    const lines = value.split('\n');
+    if (lineIndex > 0) {
+      const newPosition = textBox.selectionStart - lines[lineIndex - 1].length - 1;
+      textBox.setSelectionRange(newPosition, newPosition);
+    }
+  } else if (button.code === 'ArrowDown') {
+    const cursorPosition = textBox.selectionStart;
+    const { value } = textBox;
+    const lineIndex = value.substr(0, cursorPosition).split('\n').length - 1;
+    const lines = value.split('\n');
+    if (lineIndex < value.split('\n').length - 1) {
+      const newPosition = textBox.selectionStart + lines[lineIndex].length + 1;
+      textBox.setSelectionRange(newPosition, newPosition);
+    }
+  }
+});
+document.addEventListener('keyup', (button) => {
+  const buttonCode = button.code;
+  // remove active class wheh button realised except CapsLock
+  keyboardKeys.forEach((key) => {
+    if (key.getAttribute('code') === buttonCode && key.getAttribute('code') !== 'CapsLock') {
+      key.classList.remove('keyboard__button_active');
+    }
+  });
+});
+
+textBox.addEventListener('click', () => {
+  counter = 0;
+  // determine current cursor position
+  startSelection = textBox.selectionStart;
+});
 
 function moveCoursorVertically(button) {
   const cursorPosition = textBox.selectionStart;
