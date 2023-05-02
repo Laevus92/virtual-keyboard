@@ -170,7 +170,7 @@ function isCtrlPressed() {
 // events for keydown on physical keyboard
 document.addEventListener('keydown', (button) => {
   const buttonCode = button.code;
-
+  textBox.focus();
   if (ALPHABETS.includes(button.key) && (button.key.toUpperCase() !== button.code.slice(3))) {
     defaultLayout = ENGLISH_LAYOUT;
     switchLayout();
@@ -181,7 +181,6 @@ document.addEventListener('keydown', (button) => {
   }
 
   keyboardKeys.forEach((key) => {
-    textBox.focus();
     // push CapsLock button toggle active class
     if (buttonCode === 'CapsLock' && key.getAttribute('code') === buttonCode) {
       key.classList.toggle('keyboard__button_active');
