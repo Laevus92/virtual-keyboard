@@ -181,6 +181,7 @@ document.addEventListener('keydown', (button) => {
   }
 
   keyboardKeys.forEach((key) => {
+    textBox.focus();
     // push CapsLock button toggle active class
     if (buttonCode === 'CapsLock' && key.getAttribute('code') === buttonCode) {
       key.classList.toggle('keyboard__button_active');
