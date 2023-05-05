@@ -239,6 +239,8 @@ document.addEventListener('keydown', (button) => {
       textBox.selectionStart = cursorPosition;
       textBox.selectionEnd = cursorPosition;
     }
+  } else if (button.code === 'Space') {
+    pushSymbol(textBox, ' ');
   } else if (button.code === 'ArrowLeft') {
     if (button.shiftKey) {
       if (textBox.selectionStart === textBox.selectionEnd) {
